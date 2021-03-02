@@ -21,3 +21,24 @@ val purple200 = Color(0xFFBB86FC)
 val purple500 = Color(0xFF6200EE)
 val purple700 = Color(0xFF3700B3)
 val teal200 = Color(0xFF03DAC5)
+
+val brown = Color(0xFFE7CBA9)
+val gray = Color(0xFF878683)
+val orange = Color(0xFFEEBAB2)
+val white = Color(0xFFF5F3E7)
+val pink = Color(0xFFF5E2E4)
+
+val possiblePurple = Color(0xFF5F4B8B)
+val possibleOrange = Color(0xFFE69A8D)
+
+val TriColor = object {
+    val cannonPink = Color(0xFF98506D)
+    val chestnutRose = Color(0xFFD0605E)
+    val yellowOrange = Color(0xFFFF994C)
+}
+
+val Pandas = object {
+    val brown = Color(0xFF804020)
+    val brownRed = Color(0xFF602000)
+    val darkGreen = Color(0xFF004000)
+}
