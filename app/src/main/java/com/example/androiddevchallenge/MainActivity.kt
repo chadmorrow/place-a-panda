@@ -74,7 +74,6 @@ fun PlaceAPanda() {
                         panda = panda
                     ) { navController.navigateUp() }
                 }
-
             }
         }
     }

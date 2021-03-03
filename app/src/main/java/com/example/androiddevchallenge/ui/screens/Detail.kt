@@ -15,44 +15,38 @@
  */
 package com.example.androiddevchallenge.ui.screens
 
-import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.rememberScrollableState
-import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Dangerous
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.NotInterested
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Brush.Companion.verticalGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.bumptech.glide.request.RequestOptions
 import com.example.androiddevchallenge.model.Panda
 import com.example.androiddevchallenge.ui.components.Chip
 import com.example.androiddevchallenge.ui.components.TopBar
-
 import dev.chrisbanes.accompanist.glide.GlideImage
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun Detail(
@@ -91,7 +85,6 @@ fun Detail(
                 Column(modifier = Modifier.padding(8.dp)) {
                     Row {
                         Text(panda.name, style = MaterialTheme.typography.h3)
-
                     }
                     Spacer(modifier = Modifier.height(8.dp))
                     Row {
@@ -137,14 +130,8 @@ fun Detail(
                             Text(it)
                         }
                     }
-
-
                 }
-
-
             }
-
         }
     )
 }
-

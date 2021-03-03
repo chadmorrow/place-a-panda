@@ -25,8 +25,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -47,7 +45,6 @@ fun TopBar(text: String? = null, navigate: (() -> Unit)? = null) {
             actions = { ThemeSwitchIcon(switchTheme = switchTheme) }
         )
     }
-
 }
 
 @Composable
