@@ -15,31 +15,28 @@
  */
 package com.example.androiddevchallenge.ui.screens
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.NavHostController
-import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.model.Panda
 import com.example.androiddevchallenge.model.getPandas
 import com.example.androiddevchallenge.ui.components.ListItem
 import com.example.androiddevchallenge.ui.components.TopBar
 
-
 @Composable
 fun Home(
-    navController: NavHostController,
-    switchTheme: () -> Unit,
+    onClick: (Panda) -> Unit,
 ) {
     val pandas = remember { getPandas() }
     Scaffold(
         topBar = {
-            TopBar(switchTheme)
+            TopBar()
         },
         content = {
             LazyColumn(
@@ -48,7 +45,7 @@ fun Home(
             ) {
                 items(pandas) { panda ->
                     Card {
-                        ListItem(navController, item = panda)
+                        ListItem(onClick, item = panda)
                     }
                 }
             }

@@ -26,8 +26,8 @@ data class Panda(
     val name: String,
     val age: Int,
     val sex: String,
-    val loves: List<String?>,
-    val hates: List<String?>,
+    val loves: List<String>,
+    val hates: List<String>,
 ) : Parcelable
 
 val pandaDb = listOf(
@@ -122,7 +122,6 @@ val pandaDb = listOf(
         hates = listOf("Dogs", "Fire")
     ),
 )
-
 
 fun getPandas(): List<Panda> {
     return pandaDb

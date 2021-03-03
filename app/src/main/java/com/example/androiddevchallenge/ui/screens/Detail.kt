@@ -15,81 +15,135 @@
  */
 package com.example.androiddevchallenge.ui.screens
 
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Dangerous
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.NotInterested
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Brush.Companion.verticalGradient
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.LinearGradient
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.example.androiddevchallenge.model.getPandaById
+import com.bumptech.glide.request.RequestOptions
+import com.example.androiddevchallenge.model.Panda
+import com.example.androiddevchallenge.ui.components.Chip
+import com.example.androiddevchallenge.ui.components.TopBar
+
+import dev.chrisbanes.accompanist.glide.GlideImage
 
 @Composable
 fun Detail(
-    id: Int,
+    panda: Panda,
     onNavigateBack: () -> Unit
 ) {
-    val panda = remember { getPandaById(id) }
-
-    val image = painterResource(panda.image)
-    val density = LocalDensity.current.density
-    val width = remember { mutableStateOf(0f) }
-    val height = remember { mutableStateOf(0f) }
-    Box(
-        Modifier
-            .padding(16.dp, 8.dp)
-    ) {
-        Card(
-            shape = RoundedCornerShape(4.dp),
-            backgroundColor = MaterialTheme.colors.secondary,
-            elevation = 4.dp
-        ) {
-            Box {
-                Image(
-                    image,
-                    panda.name,
+    Scaffold(
+        topBar = {
+            TopBar(panda.name, onNavigateBack)
+        },
+        content = {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                GlideImage(
+                    data = panda.image,
+                    fadeIn = true,
+                    contentDescription = panda.name,
+                    requestBuilder = {
+                        apply(
+                            RequestOptions().centerCrop()
+                        )
+                    },
                     modifier = Modifier
-                        .align(Alignment.Center)
-                        .aspectRatio(2f)
-                        .onGloballyPositioned {
-                            width.value = it.size.width / density
-                            height.value = it.size.height / density
-                        },
+                        .fillMaxWidth()
+                        .aspectRatio(2f),
                     contentScale = ContentScale.Crop,
                 )
-                Column(
-                    Modifier
-                        .size(width.value.dp, height.value.dp)
-                        .background(
-                            Brush.verticalGradient(
-                                listOf(Color.Transparent, Color.Black),
-                                image.intrinsicSize.height * 0.6F,
-                                image.intrinsicSize.height * 1F
+                Button(modifier = Modifier.fillMaxWidth().padding(4.dp), onClick = {}) {
+                    Text("Adopt ${panda.name}", color = MaterialTheme.colors.onPrimary)
+                }
+                Column(modifier = Modifier.padding(8.dp)) {
+                    Row {
+                        Text(panda.name, style = MaterialTheme.typography.h3)
+
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Row {
+                        Chip(text = "${panda.age} yrs old")
+                        Chip(text = panda.sex)
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+
+                    panda.loves.forEach {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Filled.Favorite,
+                                "loves",
+                                modifier = Modifier
+                                    .size(24.dp, 24.dp)
+                                    .padding(4.dp),
+                                tint = Color.Red
                             )
-                        )
-                ) {}
-                Text(
-                    text = panda.name,
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(8.dp),
-                    style = MaterialTheme.typography.body2,
-                    color = Color.White
-                )
+                            Text(it)
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(18.dp))
+                    panda.hates.forEach {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                Icons.Filled.NotInterested,
+                                "hates",
+                                modifier = Modifier
+                                    .size(24.dp, 24.dp)
+                                    .padding(4.dp),
+                                tint = MaterialTheme.colors.onSurface
+                            )
+                            Text(it)
+                        }
+                    }
+
+
+                }
+
+
             }
+
         }
-    }
+    )
 }
+

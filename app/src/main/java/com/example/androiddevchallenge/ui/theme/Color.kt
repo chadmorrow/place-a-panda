@@ -36,9 +36,3 @@ val TriColor = object {
     val chestnutRose = Color(0xFFD0605E)
     val yellowOrange = Color(0xFFFF994C)
 }
-
-val Pandas = object {
-    val brown = Color(0xFF804020)
-    val brownRed = Color(0xFF602000)
-    val darkGreen = Color(0xFF004000)
-}

@@ -59,7 +59,6 @@ fun PandaTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable(
     )
 }
 
-
 class ThemeSwitcher(private val isInDarkTheme: Boolean = false) {
 
     private fun setDayTheme() {

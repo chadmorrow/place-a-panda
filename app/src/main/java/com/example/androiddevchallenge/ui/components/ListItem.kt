@@ -24,35 +24,40 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
 import com.bumptech.glide.request.RequestOptions
-import com.example.androiddevchallenge.Page
 import com.example.androiddevchallenge.model.Panda
-import com.google.android.material.card.MaterialCardView
 import dev.chrisbanes.accompanist.glide.GlideImage
 
 @Composable
-fun ListItem(navController: NavController, item: Panda) {
-    Row(modifier = Modifier
-        .clickable { navController.navigate("${Page.Detail.route}/{${item.id}}") }
-        .fillMaxWidth()
-        .clip(RoundedCornerShape(8.dp))) {
+fun ListItem(onClick: (Panda) -> Unit, item: Panda) {
+    Row(
+        modifier = Modifier
+            .clickable { onClick(item) }
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+    ) {
         Column {
             GlideImage(
                 data = item.image,
                 fadeIn = true,
                 contentDescription = item.name,
                 requestBuilder = {
-                    apply(RequestOptions()
-                        .override(300)
-                        .centerCrop())
+                    apply(
+                        RequestOptions()
+                            .override(300)
+                            .centerCrop()
+                    )
                 }
             )
         }
         Column(modifier = Modifier.padding(8.dp)) {
             Row {
                 Text(item.name, style = MaterialTheme.typography.h5)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                Chip(text =  "${item.age} yrs old")
+                Chip(text = item.sex)
             }
         }
     }

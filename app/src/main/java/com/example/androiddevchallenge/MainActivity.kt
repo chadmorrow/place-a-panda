@@ -18,33 +18,32 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
-import androidx.navigation.compose.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.rememberNavController
 import com.example.androiddevchallenge.model.Panda
-import com.example.androiddevchallenge.model.getPandas
 import com.example.androiddevchallenge.ui.screens.Detail
 import com.example.androiddevchallenge.ui.screens.Home
 import com.example.androiddevchallenge.ui.theme.PandaTheme
-import com.example.androiddevchallenge.ui.theme.ThemeSwitcher
 
-sealed class Page(val route: String) {
-    object Home : Page(route = "home")
-    object Detail : Page(route = "detail")
+sealed class Screen(val route: String) {
+    object Home : Screen(route = "home")
+    object Detail : Screen(route = "detail")
 }
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val switchTheme = ThemeSwitcher(isSystemInDarkTheme()).switchTheme
             PandaTheme {
-                PlaceAPanda(switchTheme)
+                PlaceAPanda()
             }
         }
     }
@@ -52,26 +51,30 @@ class MainActivity : AppCompatActivity() {
 
 // Start building your app here!
 @Composable
-fun PlaceAPanda(switchTheme: () -> Unit) {
+fun PlaceAPanda() {
     Surface(color = MaterialTheme.colors.background) {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = Page.Home.route) {
-            composable(route = Page.Home.route) {
+        NavHost(navController = navController, startDestination = Screen.Home.route) {
+            composable(route = Screen.Home.route) {
                 Home(
-                    navController,
-                    switchTheme,
+                    onClick = { panda ->
+                        navController.currentBackStackEntry
+                            ?.arguments?.putParcelable("panda", panda)
+                        navController.navigate("${Screen.Detail.route}/${panda.id}")
+                    }
                 )
             }
             composable(
-                route = "${Page.Detail.route}/{id}",
+                route = "${Screen.Detail.route}/{id}",
                 arguments = listOf(navArgument("id") { type = NavType.IntType })
-            ) { navBackStackEntry ->
-                navBackStackEntry.arguments?.getInt("id")?.let { id ->
+            ) {
+                val panda = navController.previousBackStackEntry?.arguments?.getParcelable<Panda>("panda")
+                if (panda != null) {
                     Detail(
-                        id = id,
-                        onNavigateBack = { navController.popBackStack() }
-                    )
+                        panda = panda
+                    ) { navController.navigateUp() }
                 }
+
             }
         }
     }
@@ -80,17 +83,15 @@ fun PlaceAPanda(switchTheme: () -> Unit) {
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun LightPreview() {
-    val switchTheme = ThemeSwitcher(isSystemInDarkTheme()).switchTheme
     PandaTheme {
-        PlaceAPanda(switchTheme)
+        PlaceAPanda()
     }
 }
 
 @Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun DarkPreview() {
-    val switchTheme = ThemeSwitcher(isSystemInDarkTheme()).switchTheme
     PandaTheme(darkTheme = true) {
-        PlaceAPanda(switchTheme)
+        PlaceAPanda()
     }
 }

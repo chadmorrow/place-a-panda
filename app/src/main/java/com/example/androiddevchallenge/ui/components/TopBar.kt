@@ -15,25 +15,54 @@
  */
 package com.example.androiddevchallenge.ui.components
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.Typeface
 import androidx.compose.ui.unit.dp
-import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.ui.theme.ThemeSwitcher
 
 @Composable
-fun TopBar(switchTheme: () -> Unit) {
-    TopAppBar(
-        title = { AppBarText() },
-        actions = { ThemeSwitchIcon(switchTheme = switchTheme) })
+fun TopBar(text: String? = null, navigate: (() -> Unit)? = null) {
+    val switchTheme = ThemeSwitcher(isSystemInDarkTheme()).switchTheme
+    if (navigate != null) {
+        TopAppBar(
+            title = { AppBarText(text) },
+            navigationIcon = { AppBarNavIcon(navigate) },
+            actions = { ThemeSwitchIcon(switchTheme = switchTheme) }
+        )
+    } else {
+        TopAppBar(
+            title = { AppBarText(text) },
+            actions = { ThemeSwitchIcon(switchTheme = switchTheme) }
+        )
+    }
+
 }
 
 @Composable
-fun AppBarText() {
-    Text("Place a Panda", style = MaterialTheme.typography.h6)
+fun AppBarText(text: String?) {
+    Text(text ?: "Place a Panda", style = MaterialTheme.typography.h6)
+}
+
+@Composable
+fun AppBarNavIcon(onClick: () -> Unit) {
+    Icon(
+        Icons.Default.ArrowBack,
+        "navButton",
+        modifier = Modifier
+            .size(48.dp, 48.dp)
+            .padding(8.dp)
+            .clickable(onClick = onClick),
+    )
 }

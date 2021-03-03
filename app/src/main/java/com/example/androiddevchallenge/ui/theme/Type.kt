@@ -30,12 +30,6 @@ val typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
-    h5 = TextStyle(
-        fontFamily = FontFamily(Font(R.font.franxurter_totally_medium, FontWeight.Light)),
-        fontWeight = FontWeight.Normal,
-        fontSize = 28.sp,
-        letterSpacing = 0.sp
-    )
         /* Other default text styles to override
     button = TextStyle(
         fontFamily = FontFamily.Default,
