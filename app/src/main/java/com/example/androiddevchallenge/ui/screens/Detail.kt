@@ -52,6 +52,7 @@ import com.example.androiddevchallenge.ui.components.Chip
 import com.example.androiddevchallenge.ui.components.TopBar
 
 import dev.chrisbanes.accompanist.glide.GlideImage
+import java.util.*
 
 @Composable
 fun Detail(
@@ -85,7 +86,7 @@ fun Detail(
                     contentScale = ContentScale.Crop,
                 )
                 Button(modifier = Modifier.fillMaxWidth().padding(4.dp), onClick = {}) {
-                    Text("Adopt ${panda.name}", color = MaterialTheme.colors.onPrimary)
+                    Text("Adopt ${panda.name}".toUpperCase(Locale.ROOT), color = MaterialTheme.colors.onPrimary)
                 }
                 Column(modifier = Modifier.padding(8.dp)) {
                     Row {
